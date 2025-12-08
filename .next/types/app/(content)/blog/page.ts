@@ -1,4 +1,4 @@
-// File: D:\PROJECT VSC\Trading (1)\Trading\src\app\(content)\blog\page.tsx
+// File: /Users/rikorizky/Documents/Aplikasi Trading/Trading/src/app/(content)/blog/page.tsx
 import * as entry from '../../../../../src/app/(content)/blog/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
