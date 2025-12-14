@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { resetPassword } from '@/lib/auth';
 import { toast } from 'react-hot-toast';
 import Link from 'next/link';
+import '../auth-styles.css';
 
 interface ForgotFormData {
   email: string;
@@ -32,20 +33,13 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigoSteel-dark via-indigoSteel-light to-indigoSteel-dark py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
-            Forgot your password?
-          </h2>
-          <p className="mt-2 text-center text-sm text-white/80">
-            Enter your email and we'll send you a reset link.
-          </p>
-        </div>
-
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <label htmlFor="email" className="form-label">Email address</label>
+    <div className="auth-page-wrapper">
+      <div className="forgot-password-container">
+        <h1>Forgot your password?</h1>
+        <p>Enter your email and we'll send you a reset link.</p>
+        
+        <form className="forgot-password-form" onSubmit={handleSubmit(onSubmit)}>
+          <div className="input-wrapper">
             <input
               {...register('email', {
                 required: 'Email is required',
@@ -56,19 +50,17 @@ export default function ForgotPasswordPage() {
               })}
               type="email"
               autoComplete="email"
-              className="input"
-              placeholder="Enter your email"
+              placeholder="email"
+              className={errors.email ? 'error' : ''}
             />
-            {errors.email && <p className="form-error">{errors.email.message}</p>}
+            {errors.email && <span className="auth-error">{errors.email.message}</span>}
           </div>
-
-          <button type="submit" disabled={isLoading} className="btn btn-primary btn-lg w-full">
+          
+          <button type="submit" disabled={isLoading} className="auth-button">
             {isLoading ? 'Sending…' : 'Send reset link'}
           </button>
-
-          <div className="text-center text-sm text-white/80">
-            <Link href="/login" className="text-primary-400 hover:text-primary-300">Back to login</Link>
-          </div>
+          
+          <Link href="/login" className="back-link">Back to login</Link>
         </form>
       </div>
     </div>
