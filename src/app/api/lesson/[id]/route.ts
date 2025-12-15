@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 
-export async function GET(_: Request, { params }: { params: { id: string } }) {
+export async function GET(_: Request, { params }: any) {
   const supabase = createRouteHandlerClient({ cookies });
 
   const { data, error } = await supabase
@@ -15,11 +15,11 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
   return NextResponse.json(data);
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, { params }: any) {
   const supabase = createRouteHandlerClient({ cookies });
   const body = await req.json();
 
-  const { topic_id, title, description, order_index, video_url, is_premium } = body;
+  const { topic_id, title, description, order_index, content, video_url } = body;
 
   const { data: userData } = await supabase.auth.getUser();
   if (!userData?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -39,9 +39,9 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
       topic_id: topic_id ?? undefined,
       title: title ?? undefined,
       description: description ?? undefined,
-      order_index: order_index ?? undefined,
+      content: content ?? undefined,
       video_url: video_url ?? undefined,
-      is_premium: is_premium ?? undefined,
+      order_index: order_index ?? undefined,
       updated_at: new Date().toISOString()
     })
     .eq("id", params.id)
@@ -52,7 +52,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   return NextResponse.json(data);
 }
 
-export async function DELETE(_: Request, { params }: { params: { id: string } }) {
+export async function DELETE(_: Request, { params }: any) {
   const supabase = createRouteHandlerClient({ cookies });
 
   const { data: userData } = await supabase.auth.getUser();

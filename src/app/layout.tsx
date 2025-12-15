@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
+import { ClientLayoutSwitch } from './ClientLayoutSwitch';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from '@/components/providers/AuthProvider';
 
@@ -14,6 +13,12 @@ export const metadata: Metadata = {
   keywords: 'trading, forex, crypto, education, community, mentorship',
   authors: [{ name: 'TradingPlatform Team' }],
   metadataBase: new URL("http:localhost:3000"), // ganti ke domain asli kamu
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+  },
   openGraph: {
     title: 'TradingPlatform - Learn, Share, Trade',
     description: 'A comprehensive trading platform combining education and community features.',
@@ -43,13 +48,7 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <body className={`${inter.className} h-full flex flex-col`}>
         <AuthProvider>
-          <div className="min-h-screen flex flex-col">
-            <Navbar />
-            <main className="flex-1 pt-16 bg-gradient-to-r from-indigoSteel-dark via-indigoSteel-light to-indigoSteel-dark">
-              {children}
-            </main>
-            <Footer />
-          </div>
+          <ClientLayoutSwitch>{children}</ClientLayoutSwitch>
           <Toaster
             position="top-right"
             toastOptions={{

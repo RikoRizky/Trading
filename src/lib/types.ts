@@ -12,9 +12,9 @@ export interface Profile {
   avatar_url?: string;
   membership_type: MembershipType;
   membership_expires_at?: string;
-  subscription_start?: string;
-  subscription_end?: string;
-  subscription_plan?: string;
+  subscription_plan?: '1month' | '3months' | '1year' | null;
+  subscription_start?: string | null;
+  subscription_end?: string | null;
   bio?: string;
   website?: string;
   twitter_handle?: string;

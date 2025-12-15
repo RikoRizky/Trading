@@ -20,7 +20,7 @@ export async function POST(req: Request) {
   const supabase = createRouteHandlerClient({ cookies });
   const body = await req.json().catch(() => ({}));
 
-  const { title, description, topic_id, order_index, video_url, is_premium } = body;
+  const { title, description,video_url,content , topic_id, order_index } = body;
 
   // Validasi input
   if (!title || !topic_id) {
@@ -51,15 +51,15 @@ export async function POST(req: Request) {
     );
   }
 
-  // INSERT KE LESSONS
+  // INSERT KE LESSON (yang benar!)
   const { data, error } = await supabase.from("lessons").insert([
     {
       topic_id,
       title,
       description: description ?? null,
-      order_index: order_index ?? 1,
       video_url: video_url ?? null,
-      is_premium: is_premium ?? false,
+      content: content ?? null,
+      order_index: order_index ?? 1,
     },
   ]);
 
@@ -69,3 +69,4 @@ export async function POST(req: Request) {
 
   return NextResponse.json(data, { status: 201 });
 }
+

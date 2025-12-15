@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@/lib/supabase/server';
 import { generateQRISCode } from '@/lib/paymentGateway';
 
-export const runtime = 'nodejs';
-
 export async function POST(request: NextRequest) {
   try {
     const { amount, description, userId } = await request.json();

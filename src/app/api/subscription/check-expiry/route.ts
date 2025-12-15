@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient } from '@/lib/supabase/server';
-
-export const runtime = 'nodejs';
+import { createClient } from '@/lib/supabase/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createServerClient();
+    const supabase = createClient();
 
     // Check for expired subscriptions
     const { data: expiredSubscriptions, error: fetchError } = await supabase

@@ -28,16 +28,16 @@ import {
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 );
 
 export default function HomePage() {
-  const [user, setUser] = useState<any>(null);
-  const [membership, setMembership] = useState<string | null>(null);
-  const [mainSwiper, setMainSwiper] = useState<any>(null);
-  const [subSwiper, setSubSwiper] = useState<any>(null);
-  const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [user, setUser] = useState(null);
+  const [membership, setMembership] = useState(null);
+  const [mainSwiper, setMainSwiper] = useState(null);
+  const [subSwiper, setSubSwiper] = useState(null);
+  const [testimonials, setTestimonials] = useState([]);
   const [testimonialsLoading, setTestimonialsLoading] = useState(true);
 
   useEffect(() => {

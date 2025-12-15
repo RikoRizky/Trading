@@ -17,7 +17,7 @@ export function SubscriptionStatus() {
     if (profile?.membership_type === 'premium' && profile?.subscription_end) {
       const checkTimeLeft = () => {
         const now = new Date().getTime();
-        const endTime = new Date(profile.subscription_end!).getTime();
+        const endTime = new Date(profile.subscription_end).getTime();
         const remaining = Math.max(0, endTime - now);
         
         setTimeLeft(remaining);
