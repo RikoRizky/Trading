@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -19,6 +19,11 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [containerClass, setContainerClass] = useState('');
+  const [pageState, setPageState] = useState('');
+  const gradientDelay = useMemo(
+    () => `-${(Date.now() % 15000) / 1000}s`,
+    []
+  );
   const router = useRouter();
   
   const {
@@ -30,11 +35,13 @@ export default function RegisterPage() {
   useEffect(() => {
     // Set initial container class untuk animasi
     setContainerClass('active');
+    setPageState('page-ready');
   }, []);
 
   const handleLoginClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setContainerClass('close');
+    setPageState('page-leaving');
     setTimeout(() => {
       router.push('/login');
     }, 300);
@@ -64,30 +71,12 @@ export default function RegisterPage() {
     };
 
   return (
-    <div className="auth-page-wrapper">
-      <div className={`auth-container ${containerClass}`}>
-        <div className="auth-form-section left auth-gradient-panel back">
-          <div className="auth-content" style={{ color: '#fff' }}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto 1em', display: 'block' }}>
-              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-              <circle cx="8.5" cy="7" r="4"/>
-              <line x1="20" y1="8" x2="20" y2="14"/>
-              <line x1="23" y1="11" x2="17" y2="11"/>
-            </svg>
-            <h1 style={{ color: '#fff', marginBottom: '0.5em' }}>Hello, friend!</h1>
-            <p style={{ color: '#fff', margin: '2em auto', fontSize: '1.4em' }}>Enter your personal details and start journey with us</p>
-            <button type="button" className="auth-button" onClick={handleLoginClick} style={{ borderColor: '#fff', background: 'transparent', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5em' }}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 8 8 12 12 16"/>
-                <line x1="16" y1="12" x2="8" y2="12"/>
-              </svg>
-              <span>Log In</span>
-            </button>
-          </div>
-        </div>
-        
-        <div className="auth-form-section right">
+    <div
+      className={`auth-page-wrapper ${pageState}`}
+      style={{ ['--authGradientDelay' as any]: gradientDelay }}
+    >
+      <div className={`auth-container ${containerClass} ${pageState === 'page-leaving' ? 'is-leaving' : ''}`}>
+        <div className="auth-form-section right form-panel">
           <div className="auth-content">
             <h1>Sign Up</h1>
             
@@ -219,6 +208,27 @@ export default function RegisterPage() {
                 {isLoading ? 'Creating account...' : 'Register'}
               </button>
             </form>
+          </div>
+        </div>
+        
+        <div className="auth-form-section left auth-gradient-panel back info-panel">
+          <div className="auth-content" style={{ color: '#fff' }}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto 1em', display: 'block' }}>
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="8.5" cy="7" r="4"/>
+              <line x1="20" y1="8" x2="20" y2="14"/>
+              <line x1="23" y1="11" x2="17" y2="11"/>
+            </svg>
+            <h1 style={{ color: '#fff', marginBottom: '0.5em' }}>Hello, friend!</h1>
+            <p style={{ color: '#fff', margin: '2em auto', fontSize: '1.4em' }}>Enter your personal details and start journey with us</p>
+            <button type="button" className="auth-button" onClick={handleLoginClick} style={{ borderColor: '#fff', background: 'transparent', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5em' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 8 8 12 12 16"/>
+                <line x1="16" y1="12" x2="8" y2="12"/>
+              </svg>
+              <span>Log In</span>
+            </button>
           </div>
         </div>
       </div>

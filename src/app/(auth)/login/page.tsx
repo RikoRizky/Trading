@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -18,6 +18,11 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [containerClass, setContainerClass] = useState('');
+  const [pageState, setPageState] = useState('');
+  const gradientDelay = useMemo(
+    () => `-${(Date.now() % 15000) / 1000}s`,
+    []
+  );
   const router = useRouter();
  
   // If user arrives at login after starting a password recovery, clear recovery flag
@@ -28,6 +33,7 @@ export default function LoginPage() {
     
     // Set initial container class
     setContainerClass('close');
+    setPageState('page-ready');
   }, []);
   
   const {
@@ -83,15 +89,19 @@ export default function LoginPage() {
   const handleRegisterClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setContainerClass('active');
+    setPageState('page-leaving');
     setTimeout(() => {
       router.push('/register');
     }, 300);
   };
 
   return (
-    <div className="auth-page-wrapper">
-      <div className={`auth-container ${containerClass}`}>
-        <div className="auth-form-section left">
+    <div
+      className={`auth-page-wrapper ${pageState}`}
+      style={{ ['--authGradientDelay' as any]: gradientDelay }}
+    >
+      <div className={`auth-container ${containerClass} ${pageState === 'page-leaving' ? 'is-leaving' : ''}`}>
+        <div className="auth-form-section left form-panel">
           <div className="auth-content">
             <h1>Log In</h1>
             <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
@@ -191,7 +201,7 @@ export default function LoginPage() {
           </div>
         </div>
         
-        <div className="auth-form-section right auth-gradient-panel front">
+        <div className="auth-form-section right auth-gradient-panel front info-panel">
           <div className="auth-content" style={{ color: '#fff' }}>
             
             <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ margin: '0 auto 1em', display: 'block' }}>
